@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NoteScript : MonoBehaviour
 {
-    public int maxSpeed = 3;
+    public float maxSpeed = 3;
     public float perlinNoiseForce = 0.001f;
     public float borderForce = 0.1f;
     public float neighborRadius = 200.0f;
@@ -18,6 +18,7 @@ public class NoteScript : MonoBehaviour
     public int needToDieLow = 0;
     // this amount and higher of living neighbors will kill the note
     public int needToDieHigh = 8;
+    public Renderer renderer;
 
     private int pitch;
     private Vector3 vel, acc;
@@ -25,13 +26,14 @@ public class NoteScript : MonoBehaviour
     private bool isAlive;
     private int[] harmonicIntervals = {0, 7, 5, 4, 8};
     private int[] chordIntervals = {0, 3, 4, 7};
+    private Color colAlive, colDead;
 
     // for perlin noise
     private float x, y, z, tx, ty, tz;
 
     private Transform transform;
 
-    public void Init(int _pitch)
+    public void Init(int _pitch, int _lowestPitch, int _highestPitch)
     {
         pitch = _pitch;
         isAlive = true;
@@ -39,6 +41,9 @@ public class NoteScript : MonoBehaviour
         tx = Random.Range(0, 10000);
         ty = Random.Range(0, 10000);
         tz = Random.Range(0, 10000);
+
+        colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 255f), 255f, 255f);
+        colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 255f), 100f, 100f);
 
         transform = GetComponent<Transform>();
 
@@ -50,12 +55,20 @@ public class NoteScript : MonoBehaviour
     {
         if(isAlive)
         {
+            renderer.material.SetColor("_Color", colAlive);
+            renderer.material.SetColor("_EmissionColor", colAlive);
+
             vel += acc;
             vel = Vector3.ClampMagnitude(vel, maxSpeed);
 
             transform.position += vel;
 
             acc = Vector3.zero;
+        }
+        else
+        {
+            renderer.material.SetColor("_Color", colDead);
+            renderer.material.SetColor("_EmissionColor", colDead);
         }
     }
 

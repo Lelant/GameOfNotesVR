@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
 
             pitch = Random.Range(lowestPitch, highestPitch);
             newNote.name = $"Note {pitch}";
-            newNote.Init(pitch);
+            newNote.Init(pitch, lowestPitch, highestPitch);
 
             notes.Add(newNote);
         }

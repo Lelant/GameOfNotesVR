@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0835b882f47c14906a36aba8bd7ad4ac, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,12 +110,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4762ef4d7e74936b5b4368c78bbc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 3
+  maxSpeed: 0.1
   perlinNoiseForce: 0.001
-  neighborRadius: 200
+  borderForce: 0.1
+  neighborRadius: 10
   dClampLow: 15
   dClampHigh: 35
   needToReviveLow: 3
   needToReviveHigh: 5
-  needToDieLow: 0
+  needToDieLow: 1
   needToDieHigh: 8
+  renderer: {fileID: 8415570836066253894}
