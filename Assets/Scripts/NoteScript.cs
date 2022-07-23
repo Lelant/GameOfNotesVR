@@ -18,7 +18,7 @@ public class NoteScript : MonoBehaviour
     public int needToDieLow = 0;
     // this amount and higher of living neighbors will kill the note
     public int needToDieHigh = 8;
-    public Renderer renderer;
+    public Renderer _renderer;
 
     private int pitch;
     private Vector3 vel, acc;
@@ -31,7 +31,7 @@ public class NoteScript : MonoBehaviour
     // for perlin noise
     private float x, y, z, tx, ty, tz;
 
-    private Transform transform;
+    private Transform _transform;
 
     public void Init(int _pitch, int _lowestPitch, int _highestPitch)
     {
@@ -45,7 +45,7 @@ public class NoteScript : MonoBehaviour
         colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 255f), 255f, 255f);
         colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 255f), 100f, 100f);
 
-        transform = GetComponent<Transform>();
+        _transform = GetComponent<Transform>();
 
         vel = Vector3.zero;
         acc = Vector3.zero;
@@ -55,20 +55,20 @@ public class NoteScript : MonoBehaviour
     {
         if(isAlive)
         {
-            renderer.material.SetColor("_Color", colAlive);
-            renderer.material.SetColor("_EmissionColor", colAlive);
+            //_renderer.material.SetColor("_Color", colAlive);
+            //_renderer.material.SetColor("_EmissionColor", colAlive);
 
             vel += acc;
             vel = Vector3.ClampMagnitude(vel, maxSpeed);
 
-            transform.position += vel;
+            _transform.position += vel;
 
             acc = Vector3.zero;
         }
         else
         {
-            renderer.material.SetColor("_Color", colDead);
-            renderer.material.SetColor("_EmissionColor", colDead);
+            //_renderer.material.SetColor("_Color", colDead);
+            //_renderer.material.SetColor("_EmissionColor", colDead);
         }
     }
 
@@ -76,11 +76,11 @@ public class NoteScript : MonoBehaviour
     {
         if(other.isAlive)
         {
-            float distance = Vector3.Distance(transform.position, other.transform.position);
+            float distance = Vector3.Distance(_transform.position, other._transform.position);
 
             if(distance < neighborRadius)
             {
-                Vector3 force = other.transform.position - transform.position;
+                Vector3 force = other._transform.position - _transform.position;
 
                 float d = force.magnitude;
 
@@ -112,29 +112,29 @@ public class NoteScript : MonoBehaviour
     // man könnte das später auch mit einem Trigger-Objekt als Grenze implementieren
     public void stayInBounds(int range)
     {
-        if(transform.position.x < -range)
+        if(_transform.position.x < -range)
         {
             acc += new Vector3(borderForce, 0.0f, 0.0f);
         }
-        else if(transform.position.x > range)
+        else if(_transform.position.x > range)
         {
             acc += new Vector3(-borderForce, 0.0f, 0.0f);
         }
 
-        if(transform.position.y < -range)
+        if(_transform.position.y < -range)
         {
             acc += new Vector3(0.0f, borderForce, 0.0f);
         }
-        else if(transform.position.y > range)
+        else if(_transform.position.y > range)
         {
             acc += new Vector3(0.0f, -borderForce, 0.0f);
         }
 
-        if(transform.position.z < -range)
+        if(_transform.position.z < -range)
         {
             acc += new Vector3(0.0f, 0.0f, borderForce);
         }
-        else if(transform.position.z > range)
+        else if(_transform.position.z > range)
         {
             acc += new Vector3(0.0f, 0.0f, -borderForce);
         }
@@ -157,7 +157,7 @@ public class NoteScript : MonoBehaviour
     {
         if(other.isAlive)
         {
-            float distance = Vector3.Distance(transform.position, other.transform.position);
+            float distance = Vector3.Distance(_transform.position, other._transform.position);
 
             if(distance < neighborRadius)
             {
