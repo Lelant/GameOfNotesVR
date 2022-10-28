@@ -47,6 +47,9 @@ public class GameController : MonoBehaviour
             note.stayInBounds(range);
             note.moveRandom();
             note.applyForces();
+            note.updateColorAndLight();
+
+            note.updateName();
 
             note.resetNeighborCount();
         }

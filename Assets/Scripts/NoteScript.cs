@@ -28,6 +28,8 @@ public class NoteScript : MonoBehaviour
     private int[] chordIntervals = {0, 3, 4, 7};
     private Color colAlive, colDead;
 
+    private Light pointLight;
+
     // for perlin noise
     private float x, y, z, tx, ty, tz;
 
@@ -42,8 +44,12 @@ public class NoteScript : MonoBehaviour
         ty = Random.Range(0, 10000);
         tz = Random.Range(0, 10000);
 
-        colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 255f), 255f, 255f);
-        colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 255f), 100f, 100f);
+        pointLight = GetComponentInChildren(typeof(Light)) as Light;
+
+        colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 1f, 1f);
+        colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 0.4f, 0.2f);
+
+        pointLight.color = colAlive;
 
         _transform = GetComponent<Transform>();
 
@@ -55,9 +61,6 @@ public class NoteScript : MonoBehaviour
     {
         if(isAlive)
         {
-            //_renderer.material.SetColor("_Color", colAlive);
-            //_renderer.material.SetColor("_EmissionColor", colAlive);
-
             vel += acc;
             vel = Vector3.ClampMagnitude(vel, maxSpeed);
 
@@ -65,10 +68,25 @@ public class NoteScript : MonoBehaviour
 
             acc = Vector3.zero;
         }
+    }
+
+    public void updateColorAndLight()
+    {
+        if(isAlive)
+        {
+            _renderer.material.SetColor("_Color", colAlive);
+            _renderer.material.SetColor("_EmissionColor", colAlive);
+
+            //pointLight.color = colAlive;
+            pointLight.gameObject.SetActive(true);
+        }
         else
         {
-            //_renderer.material.SetColor("_Color", colDead);
-            //_renderer.material.SetColor("_EmissionColor", colDead);
+            _renderer.material.SetColor("_Color", colDead);
+            _renderer.material.SetColor("_EmissionColor", colDead);
+
+            //pointLight.color = colDead;
+            pointLight.gameObject.SetActive(false);
         }
     }
 
@@ -213,5 +231,22 @@ public class NoteScript : MonoBehaviour
     private static float map(float value, float inLow, float inHigh, float outLow, float outHigh)
     {
         return (value - inLow) / (inHigh - inLow) * (outHigh - outLow) + outLow;
+    }
+
+    // this is mostly for testing
+    public void updateName()
+    {
+        string state = "";
+
+        if(isAlive)
+        {
+            state = "Alive";
+        }
+        else 
+        {
+            state = "Dead";
+        }
+
+        this.name = $"Note {pitch} {state}";
     }
 }
