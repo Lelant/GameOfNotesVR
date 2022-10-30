@@ -18,6 +18,7 @@ public class NoteScript : MonoBehaviour
     public int needToDieLow = 0;
     // this amount and higher of living neighbors will kill the note
     public int needToDieHigh = 8;
+    public float glowingValue = 6.0f;
     public Renderer _renderer;
 
     private int pitch;
@@ -75,7 +76,7 @@ public class NoteScript : MonoBehaviour
         if(isAlive)
         {
             _renderer.material.SetColor("_Color", colAlive);
-            _renderer.material.SetColor("_EmissionColor", colAlive);
+            _renderer.material.SetColor("_EmissionColor", colAlive * glowingValue);
 
             //pointLight.color = colAlive;
             pointLight.gameObject.SetActive(true);
