@@ -1,0 +1,82 @@
+
+// Sounddesign for Game of Notes VR
+
+
+
+(
+SynthDef(\ambientSound, {
+	arg freq=440, amp=0.1, out=0, length=4, freqDiff=1;
+
+	var snd, temp, env;
+	snd = 0;
+
+	4.do{arg count;
+		temp = SinOsc.ar(freq*((count+1)+{Rand(0.0,freqDiff)}),mul:1/(count+1));
+		snd = snd + temp;
+	};
+
+	env = EnvGen.ar(Env.sine(length),doneAction:2);
+	snd = snd * env * amp;
+	//snd = Pan2.ar(snd, Rand(-1.0,1.0));
+	Out.ar(out, snd);
+}).add;
+)
+
+Synth(\ambientSound, [\freq, 66.midicps, \freqDiff, 0.05])
+
+
+
+(
+Pdef(\waves,Pbind(\instrument, \ambientSound,
+	\dur, Pwhite(2.5,3.0,inf),
+	//\freq, 50.midicps, //Pwhite(100,300,inf),
+	\length, Pwhite(3.5,5.0,inf),
+	\freqDiff, Pwhite(0.1,0.05,inf),
+	\amp, Pwhite(0.1, 0.4, inf),
+));
+)
+
+// damit freq hier gesetzt werden kann, darf es nicht im Pdef hard gecoded sein!!!
+Pdef(\waves).set(\freq, 200)
+
+Pdef(\waves).play
+Pdef(\waves).stop(4)
+
+s.makeWindow
+s.meter
+
+s.quit
+
+
+// this didnt really work last time,
+// only the first audio file was ok, the rest was without data?!?!
+(
+r = Recorder.new(s);
+
+y = Routine({
+	70.do{arg count;
+
+		//var fileName;
+
+		count = count + 30;
+		count.postln;
+
+		//fileName = "NoteAmbient_" ++ count ++ "midi";
+		//fileName.postln;
+
+		r.filePrefix = "NoteAmbient_" ++ count ++ "_midi_";
+		r.record(numChannels: 1);
+
+		Pdef(\waves).set(\freq, count.midicps);
+		Pdef(\waves).play;
+
+		30.wait;
+
+		Pdef(\waves).stop();
+
+		4.wait;
+
+		r.stopRecording();
+	};
+}).play;
+)

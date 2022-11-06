@@ -31,6 +31,9 @@ public class NoteScript : MonoBehaviour
 
     private Light pointLight;
 
+    private AudioSource audioSource;
+    private AudioClip audioClip;
+
     // for perlin noise
     private float x, y, z, tx, ty, tz;
 
@@ -38,12 +41,19 @@ public class NoteScript : MonoBehaviour
 
     public void Init(int _pitch, int _lowestPitch, int _highestPitch)
     {
+        audioSource = GetComponent<AudioSource>();
+
         pitch = _pitch;
         isAlive = true;
         numNeighbors = 0;
         tx = Random.Range(0, 10000);
         ty = Random.Range(0, 10000);
         tz = Random.Range(0, 10000);
+
+        //var filePath = "Audio/NoteAmbient_" + pitch + "_midi";
+        var filePath = "Audio/NoteAmbientSound_50midi";
+        audioClip = Resources.Load<AudioClip>(filePath);
+        audioSource.clip = audioClip;
 
         pointLight = GetComponentInChildren(typeof(Light)) as Light;
 
@@ -56,6 +66,8 @@ public class NoteScript : MonoBehaviour
 
         vel = Vector3.zero;
         acc = Vector3.zero;
+
+        audioSource.Play();
     }
 
     public void applyForces()
@@ -71,6 +83,7 @@ public class NoteScript : MonoBehaviour
         }
     }
 
+    // this needs to stay here
     public void updateColorAndLight()
     {
         if(isAlive)
@@ -205,6 +218,7 @@ public class NoteScript : MonoBehaviour
                 isAlive = false;
                 acc = Vector3.zero;
                 vel = Vector3.zero;
+                audioSource.Pause();
             }
         }
         else
@@ -212,6 +226,7 @@ public class NoteScript : MonoBehaviour
             if(numNeighbors >= needToReviveLow && numNeighbors <= needToReviveHigh)
             {
                 isAlive = true;
+                audioSource.UnPause();
             }
         }
     }
