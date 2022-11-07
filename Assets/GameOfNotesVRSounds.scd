@@ -47,14 +47,19 @@ s.meter
 
 s.quit
 
+s.record(numChannels: 1);
+
+s.stopRecording;
 
 // this didnt really work last time,
 // only the first audio file was ok, the rest was without data?!?!
 (
-r = Recorder.new(s);
+Routine({
 
-y = Routine({
-	70.do{arg count;
+	//r = Recorder.new(s);
+
+	60.do{arg count;
+	//3.do{arg count;
 
 		//var fileName;
 
@@ -64,19 +69,20 @@ y = Routine({
 		//fileName = "NoteAmbient_" ++ count ++ "midi";
 		//fileName.postln;
 
-		r.filePrefix = "NoteAmbient_" ++ count ++ "_midi_";
-		r.record(numChannels: 1);
+		//r.filePrefix = "NoteAmbient_" ++ count ++ "_midi_";
+		//r.record(numChannels: 1);
 
 		Pdef(\waves).set(\freq, count.midicps);
 		Pdef(\waves).play;
 
-		30.wait;
+		4.wait;
+		//4.wait;
 
 		Pdef(\waves).stop();
 
 		4.wait;
 
-		r.stopRecording();
+		//r.stopRecording;
 	};
 }).play;
 )

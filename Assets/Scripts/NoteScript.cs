@@ -51,7 +51,8 @@ public class NoteScript : MonoBehaviour
         tz = Random.Range(0, 10000);
 
         //var filePath = "Audio/NoteAmbient_" + pitch + "_midi";
-        var filePath = "Audio/NoteAmbientSound_50midi";
+        //var filePath = "Audio/NoteAmbientSound_50midi";
+        var filePath = "Audio/Midi-" + pitch;
         audioClip = Resources.Load<AudioClip>(filePath);
         audioSource.clip = audioClip;
 
