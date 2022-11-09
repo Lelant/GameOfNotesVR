@@ -56,33 +56,31 @@ s.stopRecording;
 (
 Routine({
 
-	//r = Recorder.new(s);
+	r = Recorder.new(s);
+	//r.recHeaderFormat = "aiff";
 
 	60.do{arg count;
 	//3.do{arg count;
 
-		//var fileName;
-
 		count = count + 30;
 		count.postln;
 
-		//fileName = "NoteAmbient_" ++ count ++ "midi";
-		//fileName.postln;
+		r.prepareForRecord("/Users/timoffenhaeusser/Music/SuperCollider Recordings/Midi_" ++ count ++ ".aiff", numChannels:1);
+        0.1.wait;
 
-		//r.filePrefix = "NoteAmbient_" ++ count ++ "_midi_";
-		//r.record(numChannels: 1);
+		r.record;
 
 		Pdef(\waves).set(\freq, count.midicps);
 		Pdef(\waves).play;
 
-		4.wait;
-		//4.wait;
+		30.wait;
 
 		Pdef(\waves).stop();
 
-		4.wait;
+		6.wait;
 
-		//r.stopRecording;
+		r.stopRecording;
+		0.1.wait;
 	};
 }).play;
 )

@@ -52,7 +52,7 @@ public class NoteScript : MonoBehaviour
 
         //var filePath = "Audio/NoteAmbient_" + pitch + "_midi";
         //var filePath = "Audio/NoteAmbientSound_50midi";
-        var filePath = "Audio/Midi-" + pitch;
+        var filePath = "Audio/Midi_" + pitch;
         audioClip = Resources.Load<AudioClip>(filePath);
         audioSource.clip = audioClip;
 
