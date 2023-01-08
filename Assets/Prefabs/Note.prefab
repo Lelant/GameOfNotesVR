@@ -28,7 +28,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8415570836066253892}
   m_RootOrder: 0
@@ -107,14 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 1
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
 --- !u!1 &8415570836066253891
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,6 +122,7 @@ GameObject:
   - component: {fileID: 8415570836066253888}
   - component: {fileID: 5285073197297454556}
   - component: {fileID: 5845435205234687293}
+  - component: {fileID: 207214822033942425}
   m_Layer: 0
   m_Name: Note
   m_TagString: Note
@@ -146,8 +139,7 @@ Transform:
   m_GameObject: {fileID: 8415570836066253891}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 5118525904551053453}
   m_Father: {fileID: 0}
@@ -172,7 +164,6 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -240,6 +231,9 @@ MonoBehaviour:
   needToDieHigh: 8
   glowingValue: 6
   _renderer: {fileID: 8415570836066253894}
+  leftControllerAttraction: 0
+  rightControllerAttraction: 0
+  cameraRig: {fileID: 0}
 --- !u!54 &5285073197297454556
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -249,7 +243,7 @@ Rigidbody:
   m_GameObject: {fileID: 8415570836066253891}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 0.2
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -361,3 +355,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &207214822033942425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415570836066253891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 452d7b3cf6afeed49b6a8bab40089bd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ActiveHand: {fileID: 0}

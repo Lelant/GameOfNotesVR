@@ -39,9 +39,16 @@ public class NoteScript : MonoBehaviour
 
     private Transform _transform;
 
+    // for attracting to controllers
+    public bool leftControllerAttraction = false;
+    public bool rightControllerAttraction = false;
+    public GameObject cameraRig;
+
     public void Init(int _pitch, int _lowestPitch, int _highestPitch)
     {
         audioSource = GetComponent<AudioSource>();
+
+        cameraRig = GameObject.FindWithTag("vrCamera");
 
         pitch = _pitch;
         isAlive = true;
@@ -265,5 +272,35 @@ public class NoteScript : MonoBehaviour
         }
 
         this.name = $"Note {pitch} {state}";
+    }
+
+    public void checkAndAttractToControllers()
+    {
+        if (leftControllerAttraction)
+            attracedByLeftController();
+        if (rightControllerAttraction)
+            attracedByRightController();
+    }
+
+    private void attracedByLeftController()
+    {
+        Vector3 force = cameraRig.transform.GetChild(0).position - transform.position;
+        float d = force.magnitude;
+        //d = Mathf.Clamp(d, 1, 15);
+        float G = 3.0f;
+        float strength = G / (d * d);
+        force = force * strength;
+        acc = acc + force;
+    }
+
+    private void attracedByRightController()
+    {
+        Vector3 force = cameraRig.transform.GetChild(1).position - transform.position;
+        float d = force.magnitude;
+        //d = Mathf.Clamp(d, 1, 15);
+        float G = 3.0f;
+        float strength = G / (d * d);
+        force = force * strength;
+        acc = acc + force;
     }
 }
