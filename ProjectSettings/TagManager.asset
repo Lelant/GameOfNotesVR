@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Note
+  - Border
+  - Chord
+  - vrCamera
   layers:
   - Default
   - TransparentFX
@@ -14,7 +17,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - PostProcessing
   - 
   - 
   - 

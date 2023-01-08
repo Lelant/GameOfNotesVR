@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.gameofnotes.v1.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\Student\\Desktop\\Creative-Coding-VR-1819\\Offenhäußer-Tim\\GameOfNotes.v1\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "GameOfNotes.v1 [Testing]"
+        }
+      }
+    }
+  ]
+}
