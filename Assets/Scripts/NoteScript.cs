@@ -23,6 +23,7 @@ public class NoteScript : MonoBehaviour
 
     private int pitch;
     private Vector3 vel, acc;
+    private Vector3 velDead, accDead;
     private int numNeighbors;
     private bool isAlive;
     private int[] harmonicIntervals = {0, 7, 5, 4, 8};
@@ -74,6 +75,8 @@ public class NoteScript : MonoBehaviour
 
         vel = Vector3.zero;
         acc = Vector3.zero;
+        velDead = Vector3.zero;
+        accDead = Vector3.zero;
 
         audioSource.Play();
     }
@@ -88,6 +91,15 @@ public class NoteScript : MonoBehaviour
             _transform.position += vel;
 
             acc = Vector3.zero;
+        }
+        else
+        {
+            velDead += accDead;
+            velDead = Vector3.ClampMagnitude(velDead, maxSpeed);
+
+            _transform.position += velDead;
+
+            accDead = Vector3.zero;
         }
     }
 
@@ -152,31 +164,45 @@ public class NoteScript : MonoBehaviour
     // man könnte das später auch mit einem Trigger-Objekt als Grenze implementieren
     public void stayInBounds(int range)
     {
+        Vector3 force;
+
         if(_transform.position.x < -range)
         {
-            acc += new Vector3(borderForce, 0.0f, 0.0f);
+            force = new Vector3(borderForce, 0.0f, 0.0f);
+            acc += force;
+            accDead += force;
         }
         else if(_transform.position.x > range)
         {
-            acc += new Vector3(-borderForce, 0.0f, 0.0f);
+            force = new Vector3(-borderForce, 0.0f, 0.0f);
+            acc += force;
+            accDead += force;
         }
 
         if(_transform.position.y < -range)
         {
-            acc += new Vector3(0.0f, borderForce, 0.0f);
+            force = new Vector3(0.0f, borderForce, 0.0f);
+            acc += force;
+            accDead += force;
         }
         else if(_transform.position.y > range)
         {
-            acc += new Vector3(0.0f, -borderForce, 0.0f);
+            force = new Vector3(0.0f, -borderForce, 0.0f);
+            acc += force;
+            accDead += force;
         }
 
         if(_transform.position.z < -range)
         {
-            acc += new Vector3(0.0f, 0.0f, borderForce);
+            force = new Vector3(0.0f, 0.0f, borderForce);
+            acc += force;
+            accDead += force;
         }
         else if(_transform.position.z > range)
         {
-            acc += new Vector3(0.0f, 0.0f, -borderForce);
+            force = new Vector3(0.0f, 0.0f, -borderForce);
+            acc += force;
+            accDead += force;
         }
     }
 
@@ -282,6 +308,7 @@ public class NoteScript : MonoBehaviour
             attracedByRightController();
     }
 
+    // left attracts the lives
     private void attracedByLeftController()
     {
         Vector3 force = cameraRig.transform.GetChild(0).position - transform.position;
@@ -293,6 +320,7 @@ public class NoteScript : MonoBehaviour
         acc = acc + force;
     }
 
+    // right attracts the dead ones
     private void attracedByRightController()
     {
         Vector3 force = cameraRig.transform.GetChild(1).position - transform.position;
@@ -301,6 +329,6 @@ public class NoteScript : MonoBehaviour
         float G = 3.0f;
         float strength = G / (d * d);
         force = force * strength;
-        acc = acc + force;
+        accDead = accDead + force;
     }
 }
