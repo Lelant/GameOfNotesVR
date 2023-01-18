@@ -314,7 +314,7 @@ public class NoteScript : MonoBehaviour
         Vector3 force = cameraRig.transform.GetChild(0).position - transform.position;
         float d = force.magnitude;
         //d = Mathf.Clamp(d, 1, 15);
-        float G = 3.0f;
+        float G = 5.0f;
         float strength = G / (d * d);
         force = force * strength;
         acc = acc + force;
@@ -326,7 +326,7 @@ public class NoteScript : MonoBehaviour
         Vector3 force = cameraRig.transform.GetChild(1).position - transform.position;
         float d = force.magnitude;
         //d = Mathf.Clamp(d, 1, 15);
-        float G = 3.0f;
+        float G = 5.0f;
         float strength = G / (d * d);
         force = force * strength;
         accDead = accDead + force;
