@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
             }
 
             note.reviveOrKill();
-            note.stayInBounds(range);
+            //note.stayInBounds(range);
             note.moveRandom();
             note.checkAndAttractToControllers();
             note.applyForces();

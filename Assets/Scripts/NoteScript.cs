@@ -5,7 +5,7 @@ using UnityEngine;
 public class NoteScript : MonoBehaviour
 {
     public float maxSpeed = 3;
-    public float perlinNoiseForce = 0.001f;
+    public float perlinNoiseForce = 0.0001f;
     public float borderForce = 0.1f;
     public float neighborRadius = 200.0f;
     public float dClampLow = 15.0f;
@@ -253,7 +253,8 @@ public class NoteScript : MonoBehaviour
                 isAlive = false;
                 acc = Vector3.zero;
                 vel = Vector3.zero;
-                audioSource.Pause();
+                //audioSource.Pause();
+                audioSource.Stop();
             }
         }
         else
@@ -261,7 +262,8 @@ public class NoteScript : MonoBehaviour
             if(numNeighbors >= needToReviveLow && numNeighbors <= needToReviveHigh)
             {
                 isAlive = true;
-                audioSource.UnPause();
+                //audioSource.UnPause();
+                audioSource.Play();
             }
         }
     }
@@ -276,7 +278,9 @@ public class NoteScript : MonoBehaviour
         ty += 0.01f;
         tz += 0.01f;
 
-        acc += new Vector3(x, y, z);
+        Vector3 randomMovement = new Vector3(x, y, z);
+        acc += randomMovement;
+        accDead += randomMovement;
     }
 
     private static float map(float value, float inLow, float inHigh, float outLow, float outHigh)

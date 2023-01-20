@@ -20,9 +20,10 @@ What is the function of this package???
 
 
 TODOOOOO 18.1.23
-- create a sphere with blender, that is visible from inside
-- notes are too loud, make audio quieter and also not playing all the time, just ab und zu reicht schon, have rests
+
 - die farben sind manchmal komisch, warum haben die zum teil mehrere farben auf sich? Bug?
 - ich mag Bunt nicht, vielleicht eine andere farbauswahl? schwarz weiß?
 
 - ein Info Blatt machen, wo die Bedienung drauf steht, falls ich nicht immer bei der Installation sein kann.
+
+- play a bing, percussive sound, when controller touches note
