@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
         for (int i=0; i<numStartNotes; i++)
         {
-            newPos.Set(Random.Range(-range,range), Random.Range(-range,range), Random.Range(-range,range));
+            newPos.Set(Random.Range(-range,range), Random.Range(0.0f,range), Random.Range(-range,range));
             NoteScript newNote = Instantiate(notePrefab, newPos, Quaternion.identity);
 
             pitch = Random.Range(lowestPitch, highestPitch);

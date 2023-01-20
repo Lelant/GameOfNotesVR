@@ -180,7 +180,7 @@ public class NoteScript : MonoBehaviour
             accDead += force;
         }
 
-        if(_transform.position.y < -range)
+        if(_transform.position.y < 0.0f)
         {
             force = new Vector3(0.0f, borderForce, 0.0f);
             acc += force;
