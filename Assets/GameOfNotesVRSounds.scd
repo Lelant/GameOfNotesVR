@@ -28,16 +28,16 @@ Synth(\ambientSound, [\freq, 66.midicps, \freqDiff, 0.05])
 
 (
 Pdef(\waves,Pbind(\instrument, \ambientSound,
-	\dur, Pwhite(2.5,3.0,inf),
+	\dur, Pwhite(4.0,10.0,inf),
 	//\freq, 50.midicps, //Pwhite(100,300,inf),
-	\length, Pwhite(3.5,5.0,inf),
-	\freqDiff, Pwhite(0.1,0.05,inf),
-	\amp, Pwhite(0.1, 0.4, inf),
+	\length, Pwhite(1.5,3.0,inf),
+	\freqDiff, Pwhite(0.05,0.01,inf),
+	\amp, Pwhite(0.1, 0.2, inf),
 ));
 )
 
 // damit freq hier gesetzt werden kann, darf es nicht im Pdef hard gecoded sein!!!
-Pdef(\waves).set(\freq, 200)
+Pdef(\waves).set(\freq, 700)
 
 Pdef(\waves).play
 Pdef(\waves).stop(4)
