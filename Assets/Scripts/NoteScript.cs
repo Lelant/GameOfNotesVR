@@ -22,6 +22,7 @@ public class NoteScript : MonoBehaviour
     public Renderer _renderer;
 
     private int pitch;
+    private int noteTone;
     private Vector3 vel, acc;
     private Vector3 velDead, accDead;
     private int numNeighbors;
@@ -29,6 +30,22 @@ public class NoteScript : MonoBehaviour
     private int[] harmonicIntervals = {0, 7, 5, 4, 8};
     private int[] chordIntervals = {0, 3, 4, 7};
     private Color colAlive, colDead;
+
+    private List<Color> colors = new List<Color>()
+    {
+        new Color(1.0f, 0.0f, 0.0f), // C
+        new Color(1.0f, 0.5f, 0.0f), // C#
+        new Color(1.0f, 0.0f, 1.0f), // D
+        new Color(0.5f, 1.0f, 0.0f), // D#
+        new Color(0.0f, 1.0f, 0.0f), // E
+        new Color(0.0f, 1.0f, 0.5f), // F
+        new Color(0.0f, 1.0f, 1.0f), // F#
+        new Color(0.0f, 0.5f, 1.0f), // G
+        new Color(0.0f, 0.0f, 1.0f), // G#
+        new Color(0.5f, 0.0f, 1.0f), // A
+        new Color(1.0f, 0.0f, 1.0f), // A#
+        new Color(1.0f, 0.0f, 0.5f), // B 
+    };
 
     private Light pointLight;
 
@@ -52,6 +69,7 @@ public class NoteScript : MonoBehaviour
         cameraRig = GameObject.FindWithTag("vrCamera");
 
         pitch = _pitch;
+        noteTone = pitch % 12; // noteTone == 0 is C
         isAlive = true;
         numNeighbors = 0;
         tx = Random.Range(0, 10000);
@@ -67,8 +85,13 @@ public class NoteScript : MonoBehaviour
 
         pointLight = GetComponentInChildren(typeof(Light)) as Light;
 
-        colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 1f, 1f);
-        colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 0.4f, 0.2f);
+        //colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 1f, 1f);
+        //colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 0.4f, 0.2f);
+
+        float hue, saturation, brightness;
+        Color.RGBToHSV(colors[noteTone], out hue, out saturation, out brightness);
+        colAlive = Color.HSVToRGB(hue, 1f, 1f);
+        colDead = Color.HSVToRGB(hue, 0.4f, 0.2f);
 
         pointLight.color = colAlive;
 
@@ -302,7 +325,7 @@ public class NoteScript : MonoBehaviour
             state = "Dead";
         }
 
-        this.name = $"Note {pitch} {state}";
+        this.name = $"Note {pitch} {state} {noteTone}";
     }
 
     public void checkAndAttractToControllers()

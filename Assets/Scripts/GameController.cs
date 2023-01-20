@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public int numStartNotes = 100;
-    public int range = 20;
+    public int numStartNotes = 30;
+    public int range = 2;
     public int lowestPitch = 30;
     public int highestPitch = 80;
     public NoteScript notePrefab;

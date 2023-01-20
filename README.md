@@ -22,8 +22,10 @@ What is the function of this package???
 TODOOOOO 18.1.23
 
 - die farben sind manchmal komisch, warum haben die zum teil mehrere farben auf sich? Bug?
-- ich mag Bunt nicht, vielleicht eine andere farbauswahl? schwarz weiß?
+- ich mag Bunt nicht, vielleicht eine andere farbauswahl? schwarz weiß? - hab jetzt NOTEN Farben genommen
 
 - ein Info Blatt machen, wo die Bedienung drauf steht, falls ich nicht immer bei der Installation sein kann.
 
 - play a bing, percussive sound, when controller touches note
+
+- Emission vielleicht doch ausschalten, sonst belauchten die noten sich immer gegenseitig und man sieht die richtige farbe nicht mehr
