@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Valve.VR;
 
 // Code from this tutorial:
@@ -13,6 +14,8 @@ public class ViveInput : MonoBehaviour
     public SteamVR_Action_Boolean m_GrabAction = null;
     // action for attracting notes
     public SteamVR_Action_Boolean m_AttractAction = null;
+    // action for restarting the scene
+    public SteamVR_Action_Boolean m_ResetAction = null;
 
     // this is the standard behavior script on the controllers
     private SteamVR_Behaviour_Pose m_Pose = null;
@@ -33,6 +36,11 @@ public class ViveInput : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if(m_ResetAction.GetStateDown(m_Pose.inputSource))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
         // Down
         if(m_GrabAction.GetStateDown(m_Pose.inputSource))
         {
