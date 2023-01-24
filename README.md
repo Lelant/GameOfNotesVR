@@ -32,6 +32,7 @@ Bei 5x5 Metern:
 -- GameController Range = 2.5
 -- Sphere anpassen (Scale ca. 450?)
 -- Point Light Range = 2.5 und Intensity?
+-- Note Prefab Neighbour Radius?
 
 
 Für morgen einpacken:

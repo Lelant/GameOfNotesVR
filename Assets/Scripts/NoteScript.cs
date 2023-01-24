@@ -29,7 +29,8 @@ public class NoteScript : MonoBehaviour
     private int numNeighbors;
     private bool isAlive;
     private int[] harmonicIntervals = {0, 7, 5, 4, 8};
-    private int[] chordIntervals = {0, 3, 4, 7};
+    //private int[] chordIntervals = {0, 3, 4, 7};
+    private int[] chordIntervals = {3, 4, 7};
     private Color colAlive, colDead;
 
     private List<Color> colors = new List<Color>()
@@ -264,8 +265,8 @@ public class NoteScript : MonoBehaviour
                 int interval = Mathf.Abs(pitch - other.pitch);
                 interval = interval % 12;
 
-                foreach (int _interval in harmonicIntervals)
-                //foreach (int _interval in chordIntervals)
+                //foreach (int _interval in harmonicIntervals)
+                foreach (int _interval in chordIntervals)
                 {
                     if(interval == _interval)
                     {
