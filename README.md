@@ -29,3 +29,11 @@ TODOOOOO 18.1.23
 - play a bing, percussive sound, when controller touches note
 
 - Emission vielleicht doch ausschalten, sonst belauchten die noten sich immer gegenseitig und man sieht die richtige farbe nicht mehr
+
+
+
+Für morgen einpacken:
+- weißes Klebeband
+- Metermaß
+- Desinfektionstücher/Spray
+- 1x Ladekabel für Controller?
