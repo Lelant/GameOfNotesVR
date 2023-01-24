@@ -28,6 +28,9 @@ TODOOOOO 18.1.23
 
 - Emission vielleicht doch ausschalten, sonst belauchten die noten sich immer gegenseitig und man sieht die richtige farbe nicht mehr
 
+- scale ändern, dass man sich auf 5 mal 5 meter bewegen kann
+- ausprobieren, wie es eingestellt sein muss jetzt bei diesen 2 mal 2 metern
+
 
 
 Für morgen einpacken:
