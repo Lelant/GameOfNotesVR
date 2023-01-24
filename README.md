@@ -26,8 +26,6 @@ TODOOOOO 18.1.23
 
 - ein Info Blatt machen, wo die Bedienung drauf steht, falls ich nicht immer bei der Installation sein kann.
 
-- play a bing, percussive sound, when controller touches note
-
 - Emission vielleicht doch ausschalten, sonst belauchten die noten sich immer gegenseitig und man sieht die richtige farbe nicht mehr
 
 

@@ -49,8 +49,11 @@ public class NoteScript : MonoBehaviour
 
     private Light pointLight;
 
-    private AudioSource audioSource;
-    private AudioClip audioClip;
+    public AudioSource audioSourceAtmo;
+    public AudioSource audioSourceBling;
+    private AudioClip audioClipAtmo;
+    private AudioClip audioClipBlingLong;
+    private AudioClip audioClipBlingShort;
 
     // for perlin noise
     private float x, y, z, tx, ty, tz;
@@ -64,7 +67,8 @@ public class NoteScript : MonoBehaviour
 
     public void Init(int _pitch, int _lowestPitch, int _highestPitch)
     {
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
+        //audioSourceBling = GetComponent
 
         cameraRig = GameObject.FindWithTag("vrCamera");
 
@@ -79,9 +83,16 @@ public class NoteScript : MonoBehaviour
         //var filePath = "Audio/NoteAmbient_" + pitch + "_midi";
         //var filePath = "Audio/NoteAmbientSound_50midi";
         var filePath = "Audio_interrupted_1/Midi_" + pitch;
-        audioClip = Resources.Load<AudioClip>(filePath);
-        audioSource.clip = audioClip;
-        audioSource.volume = 0.1f;
+        audioClipAtmo = Resources.Load<AudioClip>(filePath);
+        audioSourceAtmo.clip = audioClipAtmo;
+        audioSourceAtmo.volume = 0.1f;
+
+        filePath = "Audio_bling_long/Midi_Bling_" + pitch;
+        audioClipBlingLong = Resources.Load<AudioClip>(filePath);
+        filePath = "Audio_bling_short/Midi_Bling_" + pitch;
+        audioClipBlingShort = Resources.Load<AudioClip>(filePath);
+        //audioSourceBling.clip = audioClipBling;
+        //audioSourceBling.volume = 0.9f;
 
         pointLight = GetComponentInChildren(typeof(Light)) as Light;
 
@@ -102,7 +113,7 @@ public class NoteScript : MonoBehaviour
         velDead = Vector3.zero;
         accDead = Vector3.zero;
 
-        audioSource.Play();
+        audioSourceAtmo.Play();
     }
 
     public void applyForces()
@@ -277,7 +288,7 @@ public class NoteScript : MonoBehaviour
                 acc = Vector3.zero;
                 vel = Vector3.zero;
                 //audioSource.Pause();
-                audioSource.Stop();
+                audioSourceAtmo.Stop();
             }
         }
         else
@@ -286,7 +297,7 @@ public class NoteScript : MonoBehaviour
             {
                 isAlive = true;
                 //audioSource.UnPause();
-                audioSource.Play();
+                audioSourceAtmo.Play();
             }
         }
     }
@@ -358,5 +369,17 @@ public class NoteScript : MonoBehaviour
         float strength = G / (d * d);
         force = force * strength;
         accDead = accDead + force;
+    }
+
+    public void playBling()
+    {
+        if(isAlive)
+        {
+            audioSourceBling.PlayOneShot(audioClipBlingLong, 0.9f);
+        }
+        else
+        {
+            audioSourceBling.PlayOneShot(audioClipBlingShort, 0.8f);
+        }
     }
 }

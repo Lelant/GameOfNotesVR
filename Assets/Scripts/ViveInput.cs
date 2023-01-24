@@ -87,7 +87,8 @@ public class ViveInput : MonoBehaviour
         if (!other.gameObject.CompareTag("Note"))
             return;
 
-        other.GetComponent<AudioSource>().Play(0);
+        //other.GetComponent<AudioSource>().Play(0);
+        other.GetComponent<NoteScript>().playBling();
         m_ContactInteractables.Add(other.gameObject.GetComponent<Interactable>());
     }
 
