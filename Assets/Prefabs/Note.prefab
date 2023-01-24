@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5118525904551053453
 Transform:
   m_ObjectHideFlags: 0
@@ -44,8 +44,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0, g: 1, b: 0.122285604, a: 1}
-  m_Intensity: 0.5
-  m_Range: 0.5
+  m_Intensity: 0.1
+  m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -230,7 +230,7 @@ MonoBehaviour:
   needToReviveHigh: 5
   needToDieLow: 1
   needToDieHigh: 8
-  glowingValue: 0.3
+  glowingValue: 1
   _renderer: {fileID: 8415570836066253894}
   audioSourceAtmo: {fileID: 5845435205234687293}
   audioSourceBling: {fileID: 6687393538741781323}

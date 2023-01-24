@@ -18,7 +18,7 @@ public class NoteScript : MonoBehaviour
     public int needToDieLow = 0;
     // this amount and higher of living neighbors will kill the note
     public int needToDieHigh = 8;
-    public float glowingValue = 6.0f;
+    public float glowingValue = 1.0f;
     public Renderer _renderer;
 
     private int pitch;
@@ -47,7 +47,7 @@ public class NoteScript : MonoBehaviour
         new Color(1.0f, 0.0f, 0.5f), // B 
     };
 
-    //private Light pointLight;
+    private Light pointLight;
 
     public AudioSource audioSourceAtmo;
     public AudioSource audioSourceBling;
@@ -94,7 +94,7 @@ public class NoteScript : MonoBehaviour
         //audioSourceBling.clip = audioClipBling;
         //audioSourceBling.volume = 0.9f;
 
-        //pointLight = GetComponentInChildren(typeof(Light)) as Light;
+        pointLight = GetComponentInChildren(typeof(Light)) as Light;
 
         //colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 1f, 1f);
         //colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 0.4f, 0.2f);
@@ -104,7 +104,7 @@ public class NoteScript : MonoBehaviour
         colAlive = Color.HSVToRGB(hue, 1f, 1f);
         colDead = Color.HSVToRGB(hue, 0.4f, 0.2f);
 
-        //pointLight.color = colAlive;
+        pointLight.color = colAlive;
 
         _transform = GetComponent<Transform>();
 
@@ -146,14 +146,14 @@ public class NoteScript : MonoBehaviour
             _renderer.material.SetColor("_Color", colAlive);
             _renderer.material.SetColor("_EmissionColor", colAlive * glowingValue);
 
-            //pointLight.gameObject.SetActive(true);
+            pointLight.gameObject.SetActive(true);
         }
         else
         {
             _renderer.material.SetColor("_Color", colDead);
             _renderer.material.SetColor("_EmissionColor", colDead);
 
-            //pointLight.gameObject.SetActive(false);
+            pointLight.gameObject.SetActive(false);
         }
     }
 
