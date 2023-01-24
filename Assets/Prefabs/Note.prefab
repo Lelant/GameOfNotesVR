@@ -221,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 0.005
+  maxSpeedDead: 0.001
   perlinNoiseForce: 0.001
   borderForce: 0.1
   neighborRadius: 2

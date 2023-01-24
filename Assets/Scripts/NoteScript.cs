@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class NoteScript : MonoBehaviour
 {
-    public float maxSpeed = 3;
-    public float perlinNoiseForce = 0.0001f;
+    public float maxSpeed = 0.005f;
+    public float maxSpeedDead = 0.001f;
+    public float perlinNoiseForce = 0.001f;
     public float borderForce = 0.1f;
-    public float neighborRadius = 200.0f;
+    public float neighborRadius = 2f;
     public float dClampLow = 15.0f;
     public float dClampHigh = 35.0f;
     // this amount and lower of living neighbors will revive a dead note
@@ -15,7 +16,7 @@ public class NoteScript : MonoBehaviour
     // this amount and higher of living neighbors will revive a dead note
     public int needToReviveHigh = 5;
     // this amount and lower of living neighbors will kill the note
-    public int needToDieLow = 0;
+    public int needToDieLow = 1;
     // this amount and higher of living neighbors will kill the note
     public int needToDieHigh = 8;
     public float glowingValue = 1.0f;
@@ -130,7 +131,7 @@ public class NoteScript : MonoBehaviour
         else
         {
             velDead += accDead;
-            velDead = Vector3.ClampMagnitude(velDead, maxSpeed);
+            velDead = Vector3.ClampMagnitude(velDead, maxSpeedDead);
 
             _transform.position += velDead;
 
