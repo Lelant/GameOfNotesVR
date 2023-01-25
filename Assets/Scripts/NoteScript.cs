@@ -65,6 +65,9 @@ public class NoteScript : MonoBehaviour
 
         _transform = GetComponent<Transform>();
 
+        float newScale = map(pitch, _lowestPitch, _highestPitch, 1.0f, 0.1f);
+        _transform.localScale = new Vector3(newScale, newScale, newScale);
+
         vel = Vector3.zero;
         acc = Vector3.zero;
 
