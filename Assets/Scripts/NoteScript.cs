@@ -5,6 +5,7 @@ using UnityEngine;
 public class NoteScript : MonoBehaviour
 {
     public float maxSpeed = 3;
+    public float maxSpeedDead = 1;
     public float perlinNoiseForce = 0.001f;
     public float borderForce = 0.1f;
     public float neighborRadius = 200.0f;
@@ -15,14 +16,16 @@ public class NoteScript : MonoBehaviour
     // this amount and higher of living neighbors will revive a dead note
     public int needToReviveHigh = 5;
     // this amount and lower of living neighbors will kill the note
-    public int needToDieLow = 0;
+    public int needToDieLow = 1;
     // this amount and higher of living neighbors will kill the note
     public int needToDieHigh = 8;
     public float glowingValue = 6.0f;
     public Renderer _renderer;
 
     private int pitch;
+    private int noteTone;
     private Vector3 vel, acc;
+    private Vector3 velDead, accDead;
     private int numNeighbors;
     private bool isAlive;
     private int[] harmonicIntervals = {0, 7, 5, 4, 8};
@@ -31,8 +34,29 @@ public class NoteScript : MonoBehaviour
 
     private Light pointLight;
 
-    private AudioSource audioSource;
-    private AudioClip audioClip;
+    private List<Color> colors = new List<Color>()
+    {
+        new Color(1.0f, 0.0f, 0.0f), // C
+        new Color(1.0f, 0.5f, 0.0f), // C#
+        new Color(1.0f, 0.0f, 1.0f), // D
+        new Color(0.5f, 1.0f, 0.0f), // D#
+        new Color(0.0f, 1.0f, 0.0f), // E
+        new Color(0.0f, 1.0f, 0.5f), // F
+        new Color(0.0f, 1.0f, 1.0f), // F#
+        new Color(0.0f, 0.5f, 1.0f), // G
+        new Color(0.0f, 0.0f, 1.0f), // G#
+        new Color(0.5f, 0.0f, 1.0f), // A
+        new Color(1.0f, 0.0f, 1.0f), // A#
+        new Color(1.0f, 0.0f, 0.5f), // B 
+    };
+
+    //private AudioSource audioSource;
+    //private AudioClip audioClip;
+    public AudioSource audioSourceAtmo;
+    public AudioSource audioSourceBling;
+    private AudioClip audioClipAtmo;
+    private AudioClip audioClipBlingLong;
+    private AudioClip audioClipBlingShort;
 
     // for perlin noise
     private float x, y, z, tx, ty, tz;
@@ -41,9 +65,10 @@ public class NoteScript : MonoBehaviour
 
     public void Init(int _pitch, int _lowestPitch, int _highestPitch)
     {
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
 
         pitch = _pitch;
+        noteTone = pitch % 12; // noteTone == 0 is C
         isAlive = true;
         numNeighbors = 0;
         tx = Random.Range(0, 10000);
@@ -52,14 +77,30 @@ public class NoteScript : MonoBehaviour
 
         //var filePath = "Audio/NoteAmbient_" + pitch + "_midi";
         //var filePath = "Audio/NoteAmbientSound_50midi";
+        /*
         var filePath = "Audio/Midi_" + pitch;
         audioClip = Resources.Load<AudioClip>(filePath);
         audioSource.clip = audioClip;
+        */
+        var filePath = "Audio_interrupted_1/Midi_" + pitch;
+        audioClipAtmo = Resources.Load<AudioClip>(filePath);
+        audioSourceAtmo.clip = audioClipAtmo;
+        audioSourceAtmo.volume = 0.1f;
+
+        filePath = "Audio_bling_long/Midi_Bling_" + pitch;
+        audioClipBlingLong = Resources.Load<AudioClip>(filePath);
+        filePath = "Audio_bling_short/Midi_Bling_" + pitch;
+        audioClipBlingShort = Resources.Load<AudioClip>(filePath);
 
         pointLight = GetComponentInChildren(typeof(Light)) as Light;
 
-        colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 1f, 1f);
-        colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 0.4f, 0.2f);
+        //colAlive = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 1f, 1f);
+        //colDead = Color.HSVToRGB(map(pitch, _lowestPitch, _highestPitch, 0f, 1f), 0.4f, 0.2f);
+
+        float hue, saturation, brightness;
+        Color.RGBToHSV(colors[noteTone], out hue, out saturation, out brightness);
+        colAlive = Color.HSVToRGB(hue, 1f, 1f);
+        colDead = Color.HSVToRGB(hue, 0.4f, 0.2f);
 
         pointLight.color = colAlive;
 
@@ -70,8 +111,11 @@ public class NoteScript : MonoBehaviour
 
         vel = Vector3.zero;
         acc = Vector3.zero;
+        velDead = Vector3.zero;
+        accDead = Vector3.zero;
 
-        audioSource.Play();
+        //audioSource.Play();
+        audioSourceAtmo.Play();
     }
 
     public void applyForces()
@@ -84,6 +128,15 @@ public class NoteScript : MonoBehaviour
             _transform.position += vel;
 
             acc = Vector3.zero;
+        }
+        else
+        {
+            velDead += accDead;
+            velDead = Vector3.ClampMagnitude(velDead, maxSpeedDead);
+
+            _transform.position += velDead;
+
+            accDead = Vector3.zero;
         }
     }
 
@@ -148,31 +201,45 @@ public class NoteScript : MonoBehaviour
     // man könnte das später auch mit einem Trigger-Objekt als Grenze implementieren
     public void stayInBounds(int range)
     {
+        Vector3 force;
+
         if(_transform.position.x < -range)
         {
-            acc += new Vector3(borderForce, 0.0f, 0.0f);
+            force = new Vector3(borderForce, 0.0f, 0.0f);
+            acc += force;
+            accDead += force;
         }
         else if(_transform.position.x > range)
         {
-            acc += new Vector3(-borderForce, 0.0f, 0.0f);
+            force = new Vector3(-borderForce, 0.0f, 0.0f);
+            acc += force;
+            accDead += force;
         }
 
-        if(_transform.position.y < -range)
+        if(_transform.position.y < 0.0f)
         {
-            acc += new Vector3(0.0f, borderForce, 0.0f);
+            force = new Vector3(0.0f, borderForce, 0.0f);
+            acc += force;
+            accDead += force;
         }
         else if(_transform.position.y > range)
         {
-            acc += new Vector3(0.0f, -borderForce, 0.0f);
+            force = new Vector3(0.0f, -borderForce, 0.0f);
+            acc += force;
+            accDead += force;
         }
 
         if(_transform.position.z < -range)
         {
-            acc += new Vector3(0.0f, 0.0f, borderForce);
+            force = new Vector3(0.0f, 0.0f, borderForce);
+            acc += force;
+            accDead += force;
         }
         else if(_transform.position.z > range)
         {
-            acc += new Vector3(0.0f, 0.0f, -borderForce);
+            force = new Vector3(0.0f, 0.0f, -borderForce);
+            acc += force;
+            accDead += force;
         }
     }
 
@@ -222,7 +289,8 @@ public class NoteScript : MonoBehaviour
                 isAlive = false;
                 acc = Vector3.zero;
                 vel = Vector3.zero;
-                audioSource.Pause();
+                //audioSource.Pause();
+                audioSourceAtmo.Stop();
             }
         }
         else
@@ -230,7 +298,8 @@ public class NoteScript : MonoBehaviour
             if(numNeighbors >= needToReviveLow && numNeighbors <= needToReviveHigh)
             {
                 isAlive = true;
-                audioSource.UnPause();
+                //audioSource.UnPause();
+                audioSourceAtmo.Play();
             }
         }
     }
@@ -245,7 +314,9 @@ public class NoteScript : MonoBehaviour
         ty += 0.01f;
         tz += 0.01f;
 
-        acc += new Vector3(x, y, z);
+        Vector3 randomMovement = new Vector3(x, y, z);
+        acc += randomMovement;
+        accDead += randomMovement;
     }
 
     private static float map(float value, float inLow, float inHigh, float outLow, float outHigh)
@@ -268,5 +339,17 @@ public class NoteScript : MonoBehaviour
         }
 
         this.name = $"Note {pitch} {state}";
+    }
+
+    public void playBling()
+    {
+        if(isAlive)
+        {
+            audioSourceBling.PlayOneShot(audioClipBlingLong, 0.9f);
+        }
+        else
+        {
+            audioSourceBling.PlayOneShot(audioClipBlingShort, 0.8f);
+        }
     }
 }
