@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public int numStartNotes = 100;
-    public int range = 20;
+    public int numStartNotes = 30;
+    public int range = 2;
     public int lowestPitch = 30;
     public int highestPitch = 80;
     public NoteScript notePrefab;
@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
         for (int i=0; i<numStartNotes; i++)
         {
-            newPos.Set(Random.Range(-range,range), Random.Range(-range,range), Random.Range(-range,range));
+            newPos.Set(Random.Range(-range,range), Random.Range(0.0f,range), Random.Range(-range,range));
             NoteScript newNote = Instantiate(notePrefab, newPos, Quaternion.identity);
 
             pitch = Random.Range(lowestPitch, highestPitch);
@@ -44,8 +44,9 @@ public class GameController : MonoBehaviour
             }
 
             note.reviveOrKill();
-            note.stayInBounds(range);
+            //note.stayInBounds(range);
             note.moveRandom();
+            note.checkAndAttractToControllers();
             note.applyForces();
             note.updateColorAndLight();
 
