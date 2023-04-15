@@ -38,7 +38,7 @@ public class NoteScript : MonoBehaviour
     {
         new Color(1.0f, 0.0f, 0.0f), // C
         new Color(1.0f, 0.5f, 0.0f), // C#
-        new Color(1.0f, 0.0f, 1.0f), // D
+        new Color(1.0f, 1.0f, 0.0f), // D
         new Color(0.5f, 1.0f, 0.0f), // D#
         new Color(0.0f, 1.0f, 0.0f), // E
         new Color(0.0f, 1.0f, 0.5f), // F
