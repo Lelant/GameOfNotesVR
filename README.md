@@ -5,6 +5,8 @@ Currently using Unity Version 2020.3.16f1
 
 ### There might be this Error:
 
+This error may pop up when opening the project in Unity. Just click ok or ignore or something.
+
 ```
 An error occurred while resolving packages:
   Project has invalid dependencies:
